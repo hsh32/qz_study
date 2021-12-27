@@ -56,6 +56,8 @@ python的安装(python3)
 
 [更新pip源](https://blog.csdn.net/ksp416/article/details/113885145)
 
+加上命令行pip config set global.index -url https:/pypi.tuna.tsinghua.edu.cn/simple
+
 ## 编辑器
 
 [Vim](https://blog.csdn.net/cd15109139570/article/details/79685618)
