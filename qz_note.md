@@ -58,7 +58,7 @@ python的安装(python3)
 
 ## 编辑器
 
-Vi/Vim
+[Vim](https://blog.csdn.net/cd15109139570/article/details/79685618)
 
 Vscode
 
@@ -66,9 +66,22 @@ Sublime
 
 Pycharm
 
+notepad++
+
+...
+
 ## 笔记
 
 typora
+
+```python
+def test():
+	print('这是一段python代码')
+```
+
+[Linux](https://wwe.lanzoui.com/igFedwzagle)
+[MacOS](https://wwe.lanzoui.com/ip9ijwzagpi)
+[Windows]( https://wwe.lanzoui.com/i8PP3wzahrg)
 
 ## 课后
 
@@ -150,4 +163,10 @@ oracle mysql postgresql
 # git
 
 代码管理
+
+# ssh
+
+远程连接
+
+
 
