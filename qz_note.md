@@ -188,7 +188,7 @@ ps ux | grep sh | grep -v grep
 
 sudo 管理员权限执行
 
-chmod +x xxx.txt
+chmod +[o]x xxx.txt
 
 chmod 777 xxx.txt
 
@@ -240,7 +240,7 @@ man xxx
 filetime=`date +%Y%m%d`
 case "$@" in
 	start)
-		nohup python hello.py >> ~/logs/hello.py &
+		nohup python hello.py >> ~/logs/hello.log &
 		;;
 	stop)
 		px ux|grep hello|grep -v grep|awk '{print $2}'|xargs kill -9
@@ -250,6 +250,12 @@ case "$@" in
 		exit 1
 		;;
 esac
+```
+
+vim 粘贴
+
+```
+set paste
 ```
 
 [命令分解](https://blog.csdn.net/weixin_37460672/article/details/102855911)
@@ -278,6 +284,23 @@ while true
 ## 目的
 
 相互隔离的 Python 环境
+
+指的说明的是包管理器除了pip还有其他,遇到了不要感觉陌生
+
+相关概念链接
+
+### python 包管理器
+
+软件包源中的软件包数量巨大，版本多样，所以需要借助于软件源管理工具，例如 pip、conda、Pipenv、Poetry 等
+
+- pip 是最常用的包管理工具，通过 `pip install <packagename>` 命令格式来安装软件包，使用的是 pypi 软件包源
+- conda 多用作科学计算领域的包管理工具，功能丰富且强大，使用的软件包源是 Anaconda repository 和 Anaconda Cloud，conda 不仅支持 Python 软件包，还可以安装 C、C++ 、R 以及其他语言的二定制软件包。除了软件包管理外，还能提供相互隔离的软件环境。
+- Pipenv 是 Kenneth Reitz 在2017年1月发布的Python依赖管理工具，现在由PyPA维护。Pipenv 会自动帮你管理虚拟环境和依赖文件，并且提供了一系列命令和选项来帮助你实现各种依赖和环境管理相关的操作
+- Poetry 和 Pipenv 类似，是一个 Python 虚拟环境和依赖管理工具，另外它还提供了包管理功能，比如打包和发布。你可以把它看做是 Pipenv 和 Flit 这些工具的超集。它可以让你用 Poetry 来同时管理 Python 库和 Python 程序
+
+很多包管理工具不仅提供了基本的包管理功能，还提供了虚拟环境构建，程序管理的等功能
+
+
 
 ## 创建
 
@@ -320,7 +343,7 @@ $ source myvenv/bin/activate
 判断当前虚拟环境的python版本:
 
 ```
-python
+which python
 ```
 
 ## 退出
@@ -372,6 +395,10 @@ id_rsa
 
 将公钥的内容拷到对方服务器中的authorized_keys中,若原先已有内容,往后追加
 
+如自己新建的authorized_keys,则需要配置文件权限
+
+[文件权限](https://blog.csdn.net/qq_19922839/article/details/117488663)
+
 加完记得重启ssh服务
 
 查看服务状态
@@ -415,6 +442,7 @@ ssh user@host
 ## 作业1
 
 1. 在自己创建的用户的家目录创建三个目录,分别是scripts,logs,projects
+
 2. 在scripts中写一个sh脚本(print_time.sh),
 
 3. 启动print_time.sh脚本,每隔30s输出当前时间,格式如下:
@@ -422,6 +450,8 @@ ssh user@host
    2022年1月4日 10:43:22
 
    并且重定向到~/logs/homework.log中(不需要输出到前台)
+   
+   
 
 ## 作业2
 
@@ -438,6 +468,8 @@ ssh user@host
    能够看到hello 自己的名字
 
 5. 退出虚拟环境
+
+   
 
 ## 作业3
 
