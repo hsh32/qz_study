@@ -56,6 +56,14 @@ python的安装(python3)
 
 [更新pip源](https://blog.csdn.net/ksp416/article/details/113885145)
 
+也可以直接用命令
+
+```
+pip config set global.index--url https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+
+
 ## 编辑器
 
 [Vim](https://blog.csdn.net/cd15109139570/article/details/79685618)
@@ -74,16 +82,26 @@ notepad++
 
 typora
 
+markdown
+
 ```python
 def test():
 	print('这是一段python代码')
 ```
 
+
+
 [Linux](https://wwe.lanzoui.com/igFedwzagle)
 [MacOS](https://wwe.lanzoui.com/ip9ijwzagpi)
 [Windows]( https://wwe.lanzoui.com/i8PP3wzahrg)
 
-## 课后
+<img src="qz_note.assets/234416-15060950563291.jpg" alt="234416-15060950563291" style="zoom:33%;" />
+
+
+
+# 2021年12月27日作业
+
+## 作业
 
 在自己的电脑上,用虚拟机装一个centos7.9或者ubuntu18.04
 
@@ -112,39 +130,341 @@ def test():
      $ python3 hello.py
      ```
 
-     
+
+
 
 ## 预习
 
 linux有哪些命令
 
+# 2021年12月27日作业情况
+
+1.root用户操作
+
+2.没有虚拟环境
 
 
-# linux
+
+# linux(2022年1月4日-1)
 
 ## [常用命令](https://blog.csdn.net/qq_23329167/article/details/83856430)
 
-ls,pwd,less,mkdir...
+command [-options] [parameter]
+
+### 开始
+
+ls,cd,pwd,whoami
+
+### 建用户
+
+如：zbxu，请使用root用户操作（root用户请询问银行管理员）
+
+```
+useradd -m zbxu
+```
+
+设置密码
+
+```
+passwd zbxu
+```
+
+sudo权限
+
+```
+usermod -a -G wheel zbxu
+```
+
+### 增删改
+
+mkdir,rm,mv,cp,touch,rm,vi
+
+### 查
+
+find,grep,cat,more,less,tail,head,ps ux,↑↓
+
+### 管道
+
+ps ux | grep sh | grep -v grep
+
+### 权限管理
+
+sudo 管理员权限执行
+
+chmod +x xxx.txt
+
+chmod 777 xxx.txt
+
+例如：
+`777` ===> `u=rwx,g=rwx,o=rwx`
+`755` ===> `u=rwx,g=rx,o=rx`
+`644` ===> `u=rw,g=r,o=r`
+
+### 解压缩
+
+tar -zcvf xxx.tar.gz 要打包的文件
+
+tar -zxvf xxx.tar.gz
+
+zip xxx.zip 要打包的文件
+
+unzip xxx.zip
+
+### 重定向
+
+ls -la >> ~/xxx.log
+
+### 符号链接
+
+ln -s hello.py hello
+
+### 关机重启
+
+shutdown -r now 立即重启
+
+shutdown now 立即关机
+
+shutdown +10 10分钟后关机
+
+shutdown -c 取消关机计划
+
+### 帮助
+
+xxx --help
+
+man xxx
+
+## shell编程
+
+### 启动停止脚本
+
+```shell
+#!/bin/sh
+filetime=`date +%Y%m%d`
+case "$@" in
+	start)
+		nohup python hello.py >> ~/logs/hello.py &
+		;;
+	stop)
+		px ux|grep hello|grep -v grep|awk '{print $2}'|xargs kill -9
+		;;
+	*)
+		echo "unknown argument args(start|stop)"
+		exit 1
+		;;
+esac
+```
+
+[命令分解](https://blog.csdn.net/weixin_37460672/article/details/102855911)
+
+### 重复执行脚本
+
+```python
+import time
+print('hello', time.time())
+```
+
+```shell
+#!/bin/sh
+while true
+	do
+		python time_print.py
+		echo "wait 5s"
+		sleep 5
+	done
+```
 
 
 
+# 虚拟环境(2022年1月4日-2)
+
+## 目的
+
+相互隔离的 Python 环境
+
+## 创建
+
+### virtualenv
+
+在 python3.3 之前，只能通过 virtualenv 创建虚拟环境，首先需要安装 virtualenv
+
+```bash
+pip install virtualenv
+```
+
+指定python解析器
+
+```
+virtualenv --python=python3 myenv
+```
+
+[virtualenv: error: unrecognized arguments: --no-site-packages](https://blog.csdn.net/qq_33659001/article/details/109438895)
+
+### venv
+
+Python3.3 之后，可以用模块 venv 代替 virtualenv 工具，好处是不用单独安装，3.3 及之后的版本，都可以通过安装好的 Python 来创建虚拟环境:
+
+```bash
+python -m venv myvenv
+```
+
+可以在当前目录创建一个名为 myvenv 的虚拟环境
+
+因为 venv 是依附于一个 Python 解析器创建的，所以不需要指定 Python 解释器版本
+
+## 激活
+
+```bash
+$ source myvenv/bin/activate
+```
+
+激活后，可以在命令行中看到虚拟环境标记
+
+判断当前虚拟环境的python版本:
+
+```
+python
+```
+
+## 退出
+
+```
+deactivate
+```
+
+## 部署
+
+之所以在开发时选择虚拟环境，除了避免库之间的冲突，还有重要的原因是方便部署，因为虚拟环境是独立的，仅包含了项目相关的依赖库，所以部署的效率更高，风险更小
+
+一般部署流程是：
+
+1. 开发完成后，使用 `pip freeze > requirements.txt` 命令将项目的库依赖导出，作为代码的一部分
+2. 将代码上传到服务器
+3. 在服务器上创建一个虚拟环境
+4. 激活虚拟环境，执行 `pip install -r requirements.txt`，安装项目依赖
 
 
 
+# ssh(2022年1月4日-3)
+
+## 口令
+
+```
+ssh user@host
+```
+
+需要输入密码
+
+## 公钥
+
+### 创建
+
+```
+ssh-keygen
+```
+
+一路回车即可
+
+在~/.ssh中有生成的密钥:
+
+id_rsa
+
+以及公钥:
+
+ id_rsa.pub
+
+将公钥的内容拷到对方服务器中的authorized_keys中,若原先已有内容,往后追加
+
+加完记得重启ssh服务
+
+查看服务状态
+
+```
+systemctl status sshd
+```
+
+重启服务
+
+```
+systemctl restart sshd
+```
+
+启动服务
+
+```
+systemctl start sshd
+```
+
+停止服务
+
+```
+systemctl stop sshd
+```
 
 
 
-# python和pip
+### 使用
 
-进件系统,村行进件系统,一键核查系统都是基于python开发
+```
+ssh user@host
+```
 
-python安装
+不用输入密码
 
-# 虚拟环境
 
-python项目的虚拟环境,requrements.txt
 
-# 框架
+# 2022年1月4日作业
+
+## 作业1
+
+1. 在自己创建的用户的家目录创建三个目录,分别是scripts,logs,projects
+2. 在scripts中写一个sh脚本(print_time.sh),
+
+3. 启动print_time.sh脚本,每隔30s输出当前时间,格式如下:
+
+   2022年1月4日 10:43:22
+
+   并且重定向到~/logs/homework.log中(不需要输出到前台)
+
+## 作业2
+
+1. 在~/projects/中创建一个python3的虚拟环境py3
+
+2. 进入虚拟环境
+
+3. 在环境中使用pip安装flask
+
+4. 启动一个web服务,浏览器打开
+
+   服务器ip:8888/自己的名字
+
+   能够看到hello 自己的名字
+
+5. 退出虚拟环境
+
+## 作业3
+
+1. 使用公钥ssh连上自己的虚拟机,启动flaskweb服务
+
+2. 主机(非虚拟机)的浏览器打开网页显示
+
+   hello 自己的名字
+
+
+
+## 预习
+
+python 的基础语法
+
+python中包的使用
+
+
+
+# python
+
+语法
+
+# web框架
 
 django flask
 
@@ -164,9 +484,9 @@ oracle mysql postgresql
 
 代码管理
 
-# ssh
 
-远程连接
+
+
 
 
 
