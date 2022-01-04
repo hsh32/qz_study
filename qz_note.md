@@ -61,9 +61,6 @@ python的安装(python3)
 ```
 pip config set global.index--url https://pypi.tuna.tsinghua.edu.cn/simple
 ```
-
-
-
 ## 编辑器
 
 [Vim](https://blog.csdn.net/cd15109139570/article/details/79685618)
