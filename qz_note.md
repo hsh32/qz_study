@@ -188,9 +188,9 @@ ps ux | grep sh | grep -v grep
 
 sudo 管理员权限执行
 
-chmod +[o]x xxx.txt
+chmod [o]+x xxx.txt (给other增加执行权限)
 
-chmod 777 xxx.txt
+chmod 777 xxx.txt(所有人权限全开)
 
 例如：
 `777` ===> `u=rwx,g=rwx,o=rwx`
