@@ -243,7 +243,7 @@ case "$@" in
 		nohup python hello.py >> ~/logs/hello.log &
 		;;
 	stop)
-		px ux|grep hello|grep -v grep|awk '{print $2}'|xargs kill -9
+		ps ux|grep hello|grep -v grep|awk '{print $2}'|xargs kill -9
 		;;
 	*)
 		echo "unknown argument args(start|stop)"
