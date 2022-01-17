@@ -2010,41 +2010,415 @@ Use for loop to iterate all possible solutions.
 
 ## 文件读写
 
-文本文件
+### 打开与关闭
+
+```python
+# 打开文件 写方式
+# file = open("file.txt",'w') # 自动创建文件并清空
+file = open("file.txt",'a') # 不会清空add
+
+# 打开文件 读方式
+# file = open("file.txt",'r') # 要文件必须存在read
+
+# 关闭文件对象
+file.close()
+```
+
+### 读操作
+
+```python
+# 读方式打开
+file = open("file.txt",'r')
+# file = open("file.txt",'rb') # 二进制
+
+# 读取文件 (大文件读取往往用循环)
+# while True:
+#     data = file.read(8) # 8个字节,默认读取整个
+#     # data 读取到空 说明到了文件结尾
+#     if not data:
+#         break
+#     print(data,end="")
+
+# 按行读取
+# data = file.readline()
+# print(data)
+# data = file.readline()
+# print(data)
+
+# 多行内容读取为列表
+# lines = file.readlines()
+# print(lines)
+
+# 迭代取值
+for line in file:
+    print(line)
+```
+
+### 写操作
+
+```python
+# 写方式打开
+file = open("file.txt",'w')
+# file = open("file.txt",'wb') # 二进制
+# file = open("file.txt",'ab') # 追加
+
+# 写入内容
+# n = file.write("hello,world\n".encode())
+# print("写入 %d 个字节"%n)
+# file.write("你好.世界\n".encode())
+
+# 列表中每一项写入
+data = [
+    "接着奏乐\n",
+    "接着舞\n"
+]
+file.writelines(data)
+
+
+file.close()
+```
+
+### with操作
+
+```python
+# with语句块生成操作对象
+with open("file.txt") as file:
+    data = file.read()
+    print(data)
+
+# with 语句块结束  file 自动销毁
+```
+
+### bytes
+
+```python
+# ascii字符字节串变量
+byte1 = b"Hello"
+print(byte1)
+
+# 非ascii字符  encode() --> 将字符串转变为字节串
+byte2 = "你好".encode()
+print(byte2)
+
+# 字节串 转换为字符串
+str1 = b'\xe4\xbd\xa1\x5e\xa5\xbd'.decode()
+print(str1)
+```
+
+### os模块
+
+[os](https://www.runoob.com/python/os-file-methods.html)
+
+[os.path](https://www.runoob.com/python/python-os-path.html)
+
+
 
 ## 面向对象
 
-class
+[class](https://www.runoob.com/python3/python3-class.html)
+
+self, 类的实例
+
+
 
 ## 正则表达式
 
-re
+[通配符](https://zhuanlan.zhihu.com/p/224928283)
+
+[re](https://www.runoob.com/python/python-reg-expressions.html)
+
+正则表达式是一个特殊的字符序列，它能帮助你方便的检查一个字符串是否与某种模式匹配。
+
+pattern
+
+find_all
+
+字符+数量
+
+1. 请在下面字符串中匹配出所有数字
+   今天是 2021年3月30日
+
+```
+In [25]: re.findall('[0-9]+','今天是2021年3月30日
+    ...: ')
+Out[25]: ['2021', '3', '30']
+```
+
+
+
+
+2. 使用一个正则表达式匹配一段英文当中所有
+    以大写字母开头的单词
+
+```
+In [27]: re.findall('[A-Z][a-z]*',"How are you,Ja
+me")
+Out[27]: ['How', 'Jame']
+```
+
+
+
+3. 在下面字符串中匹配数字
+
+-12°的气温，战士背着30Kg重装备。
+
+```
+In [33]: re.findall('-?[0-9]+',"-12°的气温，战士背着30Kg重装备。")
+Out[33]: ['-12', '30']
+```
+
+
+
+4. 匹配国内手机号码
+
+```
+In [81]: re.findall(r'\b1[3-9][0-9]{9}\b',"电话:13838386767,卡号：699915788492384747")
+Out[81]: ['13838386767']
+```
+
+
+
+5. 匹配qq号码
+
+```
+In [43]: re.findall('[1-9][0-9]{4,10}',"1259296994")
+Out[43]: ['1259296994']
+```
+
+
+
+
+6. 通过正则表达式验证一个密码是否
+    为数字字母下划线构成，并且是 6-12位
+
+```
+In [56]: re.findall('^[_0-9a-zA-Z]{6,12}$',"tedu_0321")
+Out[56]: ['tedu_0321']
+```
+
+
+
+
+7. 匹配一组数字  -12  30  1.25  -3.6
+
+```
+In [92]: re.findall(r'-?\d+\.?\d*',"-12  30  1.25 -3.6  5")
+Out[92]: ['-12', '30', '1.25', '-3.6', '5']
+```
+
+
+
+8. 匹配 每天薪资
+   日薪： $150
+
+```
+In [94]: re.findall(r'\$\d+',"日薪： $150")
+Out[94]: ['$150']
+```
+
+
+
+
+9. 匹配出如下字符串中图书的名字包含书名号
+
+   张xx :《活着 —— 记录》 《北京， 2021》
+   李xx :《奥特曼 打小怪兽 ～～ biubiu》
+   王xx :《宇宙危机 @ 叔叔救我》
+
+```
+In [111]: re.findall("《.+?》",str01)
+Out[111]: ['《活着 —— 记录》', '《北京， 2021》', '《奥特曼 打小怪兽 ～～ biubiu》', '《宇宙危机 @ 叔叔救我》']
+```
+
+非贪婪?
+
+## 装饰器
+
+增加**功能**
+
+```python
+import time
+
+def timer(f):
+    # *定义装饰器
+    def inner(*args, **kwargs):
+        start = time.time()
+        func = f(*args, **kwargs)
+        end = time.time()
+        print("装饰器函数", end - start)
+        return func
+
+    return inner
+
+
+@timer
+def add(a, b):
+    time.sleep(2)
+    return a + b
+
+
+print(add(3, 1))
+```
+
+[更多](https://www.runoob.com/w3cnote/python-func-decorators.html)
 
 ## 数据处理
 
-pandas
+[pandas入门](https://www.runoob.com/pandas/pandas-tutorial.html)
 
-## 其他有趣的包
+[pandas文档](http://www.pypandas.cn/)
 
-yagmail
+了解
+
+```
+pandas结合条件,添加字段
+https://www.cnpython.com/qa/29761
+>>> d = {'Age' : pd.Series([36., 42., 6., 66., 38.]) }
+>>> df = pd.DataFrame(d)
+>>> df
+   Age
+0   36
+1   42
+2    6
+3   66
+4   38
+>>> df['Age_Group'] = '<40'
+>>> df['Age_Group'][df['Age'] > 40] = '>40'
+>>> df['Age_Group'][(df['Age'] > 18) & (df['Age'] < 40)] = '>18'
+>>> df['Age_Group'][df['Age'] < 18] = '<18'
+>>> df
+   Age Age_Group
+0   36       >18
+1   42       >40
+2    6       <18
+3   66       >40
+4   38       >18
+```
+
+
+
+# 2022年1月17日作业
+
+## 作业一
+
+编写一个函数，传入一个目录（假设该目录中全是文本文件），函数的功能是将这些文本文件合并为一个大文件
+
+```
+def union_files(dir):
+    pass
+```
+
+
+
+## 作业二
+
+在学生列表中完成下列功能：
+-- 查找所有姓名小于三个字的学生
+-- 查找所有女同学
+-- 查找所有成绩小于60的同学姓名
+-- 查找成绩最高的学生
+
+```python
+class Student:
+ def __init__(self, name="", age=0, score=0, sex=""):
+     self.name = name
+     self.age = age
+     self.score = score
+     self.sex = sex
+def xxx(self):
+    pass
+list_student = [
+    Student("悟空",26,96,"男"),
+    Student("八戒",25,50,"男"),
+    Student("唐僧",23,53,"女"),
+    Student("小白龙",29,85,"女"),
+]
+```
+
+
+
+## 作业三
+
+有一个字符串如下，使用正则表达式匹配出张小亮分数
+
+王小明：89 ，张小亮：91，李晓彤：79
+
+
+
+## 作业四
+
+写一个日志记录的装饰器
+
+```
+def my_logger(f):
+	pass
+```
+
+保存日志在家目录的logs下的当前日期目录下,如
+
+20220117
+
+​	不存在,则创建
+
+日志文件名称为 调用函数名称.log
+
+​	如hello.log
+
+​	存在,则追加,不存在,则创建
+
+日志记录的内容如下:
+
+日期 时间  函数名 被调用了
+
+```
+2022-01-17 17:02:01 hello 被调用了
+```
+
+
+
+最终/home/kevin/20220117/hello.log
+
+
+
+## 预习
+
+### 如何用python连接数据库,如mysql?
+
+用函数实现(先安装mysql )
+
+### web框架有哪些?
+
+### 如何用爬虫做一个翻译器?
+
+
+
+
 
 # 数据库
 
 oracle mysql postgresql
 
+
+
 # web框架
 
 django flask
+
+
 
 # 爬虫
 
 requests post get
 
+
+
 # nginx,apache
 
 反向代理
 
-# git...........................................................
+
+
+# git
 
 代码管理
 
