@@ -1,6 +1,8 @@
 基于python的web开发
 
-[笔记地址](https://github.com/hsh32/qz_study)
+[笔记地址github](https://github.com/hsh32/qz_study)
+
+[笔记地址gitee](https://gitee.com/hsh32/ss_study.git)
 
 ------
 
@@ -92,7 +94,7 @@ def test():
 [MacOS](https://wwe.lanzoui.com/ip9ijwzagpi)
 [Windows]( https://wwe.lanzoui.com/i8PP3wzahrg)
 
-<img src="qz_note.assets/234416-15060950563291.jpg" alt="234416-15060950563291" style="zoom:33%;" />
+<img src="ss_note.assets/234416-15060950563291.jpg" alt="234416-15060950563291" style="zoom:33%;" />
 
 
 
