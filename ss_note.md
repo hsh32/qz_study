@@ -2141,8 +2141,7 @@ find_all
    今天是 2021年3月30日
 
 ```
-In [25]: re.findall('[0-9]+','今天是2021年3月30日
-    ...: ')
+In [25]: re.findall('[0-9]+','今天是2021年3月30日')
 Out[25]: ['2021', '3', '30']
 ```
 
@@ -2153,8 +2152,7 @@ Out[25]: ['2021', '3', '30']
     以大写字母开头的单词
 
 ```
-In [27]: re.findall('[A-Z][a-z]*',"How are you,Ja
-me")
+In [27]: re.findall('[A-Z][a-z]*',"How are you,Jame")
 Out[27]: ['How', 'Jame']
 ```
 
@@ -2194,8 +2192,8 @@ Out[43]: ['1259296994']
     为数字字母下划线构成，并且是 6-12位
 
 ```
-In [56]: re.findall('^[_0-9a-zA-Z]{6,12}$',"tedu_0321")
-Out[56]: ['tedu_0321']
+In [56]: re.findall('^[_0-9a-zA-Z]{6,12}$',"edu_0321")
+Out[56]: ['edu_0321']
 ```
 
 
@@ -2400,11 +2398,134 @@ def my_logger(f):
 
 oracle mysql postgresql
 
+以mysql为例
 
+1， [安装MySQL](https://www.cnblogs.com/bsw-zhen/p/11022565.html)
+
+http://mirrors.sohu.com/mysql/MySQL-5.7/mysql-5.7.35-linux-glibc2.12-x86_64.tar.gz
+
+2，进入MySQL查看数据
+mysql -uroot -p123456  --root 是用户，123456 是密码， u 和p 是固定的格式
+
+/* 显示 数据库 ：数据库就是一堆表的集合*/
+show databases
+        +--------------------+
+        | Database           |
+        +--------------------+
+        | information_schema |
+        | mysql              |
+        | performance_schema |
+        | sys                |
+        +--------------------+
+        4 rows in set (0.00 sec)
+-- 进入mysql数据库
+
+use mysql;
+
+    Reading table information for completion of table and column names
+    You can turn off this feature to get a quicker startup with -A
+     
+    Database changed
+    ----------------------
+
+ 
+
+show tables  显示这个数据库有哪些表
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| db                        |
+| engine_cost               |
+
+
+-- 查看表的结构
+
+mysql> desc user;  --每个字段严格指定 类型 大小
+
++------------------------+-----------------------------------+------+-----+-----------------------+-------+
+| Field                  | Type                              | Null | Key | Default               | Extra |
++------------------------+-----------------------------------+------+-----+-----------------------+-------+
+| Host                   | char(60)                          | NO   | PRI |                       |       |
+| User                   | char(32)                          | NO   | PRI |                       |       |
+| Select_priv            | enum('N','Y')                     | NO   |     | N                     |       |
+| Insert_priv            | enum('N','Y')                     | NO   |     | N                     |       |
+
+ 
+
+-- 查看数据内容
+mysql> select * from user;
+mysql> select * from user\G;
+
+ -- 退出
+
+mysql> quit
+
+Bye
+
+-- 赋予远程连接的权限（好像不好用），本机使用好用
+
+mysql> grant all on *.* to 'root'@'%' identified by "123456"
+flush privileges;
+exit;
+service mysql restart
+
+-- Python 远程连接数据库
+
+      import pymysql
+     
+      # 创建连接
+      conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='123456', db='mysql')
+        # 下面也可以
+      conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='mysql')#mysql是数据库
+     
+      # 创建游标
+      cursor = conn.cursor()
+     
+      effect_row = cursor.execute("select * from user")
+      print(cursor.fetchone())
+      conn.commit()
+     
+      # 关闭游标
+      cursor.close()
+      # 关闭连接
+      conn.close()
+---------------------------
+
+查看进程
+
+zjw@zjw-System-Product-Name:~$ ps -ef
+zjw@zjw-System-Product-Name:~$ ps -ef | grep mysql
 
 # web框架
 
 django flask
+
+[官网](https://www.djangoproject.com/)
+
+[菜鸟](https://www.runoob.com/django/)
+
+
+
+# git
+
+代码管理
+
+
+
+# 2022年1月24日作业
+
+1. 安装mysql
+
+2. django创建项目，创建应用，
+
+   实现访问mysql,增删改查
+
+   需求待定！
+
+3. 创建自己的gitee,上传创建的django的项目
+
+   
 
 
 
@@ -2414,15 +2535,17 @@ requests post get
 
 
 
+
+
+
+
 # nginx,apache
 
 反向代理
 
 
 
-# git
 
-代码管理
 
 
 
